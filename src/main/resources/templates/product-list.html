@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+</head>
+<body>
+<div th:replace="layout/frag :: header(title='List Product')"></div>
+
+<div class="container-fluid">
+    <div class="row mt-2">
+        <main class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="float-left" >
+                        <h3>List Student</h3>
+                        <small>Show all Student</small>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tr>
+                            <td>Name</td>
+                            <td>Addr</td>
+                            <td>Date of Birth</td>
+                        </tr>
+                        <tr th:each="product : ${pagination.getContent()}">
+                            <td th:text="${product.name}" ></td>
+                            <td th:text="${product.addr}" ></td>
+                            <td th:text="${product.dateofbirth}" ></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <nav aria-label="Page navigation example" class="float-right">
+                        <ul class="pagination" th:if="${1 < pagination.getTotalPages()}">
+                            <li class="page-item" th:if="${page}>1"><a class="page-link" th:href="@{/product/list(page=1,limit=${limit})}">First</a></li>
+                            <li class="page-item" th:if="${page &gt; 1}">
+                                <a class="page-link" th:href="@{/product/list(page = ${page - 1}, limit=${limit})}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" th:text="'Page' + ${page}">1</a></li>
+                            <li class="page-item" th:if="${page &lt; pagination.getTotalPages()}">
+                                <a class="page-link" th:href="@{/product/list(page=${page + 1}, limit=${limit})}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:if="${page < pagination.getTotalPages()}"><a class="page-link" th:href="@{/product/list(page=${pagination.getTotalPages()}, limit=${limit})}" >Last</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div th:replace="layout/frag :: footer"></div>
+</body>
+</html>
